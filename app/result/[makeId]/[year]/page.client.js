@@ -4,13 +4,12 @@ import { useState, useEffect, Suspense } from "react";
 
 async function fetchVehicleModels(makeId, year) {
   const response = await fetch(
-    `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeIdYear/makeId/${makeId}/modelyear/${year}?format=json`
+    `${process.env.NEXT_PUBLIC_VEHICLE_API_URL}/GetModelsForMakeIdYear/makeId/${makeId}/modelyear/${year}?format=json`
   );
   const data = await response.json();
   return data.Results || [];
 }
 
-// ResultPageClient now returns a promise that Suspense can use to wait for
 export default function ResultPageClient({ makeId, year, makeName }) {
   const [vehicleModels, setVehicleModels] = useState([]);
   const [error, setError] = useState(null);
@@ -28,7 +27,6 @@ export default function ResultPageClient({ makeId, year, makeName }) {
     loadData();
   }, [makeId, year]);
 
-  // If error, show a message
   if (error) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -37,7 +35,6 @@ export default function ResultPageClient({ makeId, year, makeName }) {
     );
   }
 
-  // Loading message while data is still being fetched
   if (vehicleModels.length === 0) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -46,7 +43,6 @@ export default function ResultPageClient({ makeId, year, makeName }) {
     );
   }
 
-  // Render the vehicle models or a message if no models are found
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
@@ -58,7 +54,7 @@ export default function ResultPageClient({ makeId, year, makeName }) {
           <ul className="space-y-4">
             {vehicleModels.map((model, index) => (
               <li
-                key={`${model.Model_ID}-${index}`} // Combine Model_ID and index for uniqueness
+                key={`${model.Model_ID}-${index}`}
                 className="text-lg text-gray-700 border-b pb-2"
               >
                 {model.Model_Name}
