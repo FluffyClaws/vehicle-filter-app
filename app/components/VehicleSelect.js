@@ -1,4 +1,9 @@
-export default function VehicleSelect({ label, options, value, onChange }) {
+export default function VehicleSelect({
+  label,
+  options = [],
+  value,
+  onChange,
+}) {
   return (
     <div className="mb-6 w-full max-w-md">
       <label className="block text-gray-700 text-lg font-semibold mb-2">
@@ -12,16 +17,20 @@ export default function VehicleSelect({ label, options, value, onChange }) {
         <option value="" className="text-gray-500">
           Select {label}
         </option>
-        {options.map((option) =>
-          typeof option === "object" ? (
-            <option key={option.MakeId} value={option.MakeId}>
-              {option.MakeName}
-            </option>
-          ) : (
-            <option key={option} value={option}>
-              {option}
-            </option>
+        {options.length > 0 ? (
+          options.map((option) =>
+            typeof option === "object" ? (
+              <option key={option.MakeId} value={option.MakeId}>
+                {option.MakeName}
+              </option>
+            ) : (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            )
           )
+        ) : (
+          <option disabled>No options available</option>
         )}
       </select>
     </div>

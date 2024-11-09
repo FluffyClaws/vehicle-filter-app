@@ -1,22 +1,61 @@
-"use client";
+import React, { Suspense } from "react";
+import ResultPageClient, { fetchVehicleModels } from "./page.client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+// Fetch make name for a given makeId
+export async function fetchMakeName(makeId) {
+  try {
+    console.log(`Fetching make name for makeId: ${makeId}`);
 
-export default function ResultPage() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+    const res = await fetch(
+      `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/${makeId}?format=json`
+    );
 
-  const makeId = pathname.split("/")[2];
-  const year = pathname.split("/")[3];
+    if (!res.ok) {
+      console.error(`Failed to fetch make name for makeId: ${makeId}`);
+      return "Unknown Make";
+    }
 
-  console.log("Current Pathname:", pathname);
-  console.log("Make ID:", makeId, "Year:", year);
+    const data = await res.json();
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-4">Vehicle Information</h1>
-      <p className="text-lg">Make ID: {makeId}</p>
-      <p className="text-lg">Year: {year}</p>
-    </div>
+    if (data.Results && data.Results.length > 0) {
+      return data.Results[0]?.Make_Name || "Unknown Make";
+    } else {
+      console.warn(`No make found for makeId: ${makeId}`);
+      return "Unknown Make";
+    }
+  } catch (error) {
+    console.error(`Error fetching make name for makeId: ${makeId}`, error);
+    return "Unknown Make";
+  }
+}
+
+export async function generateStaticParams() {
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2014 }, (_, i) => 2015 + i);
+
+  // Fetching available makes
+  const res = await fetch(
+    "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json"
   );
+  const makesData = await res.json();
+  const makes = makesData.Results;
+
+  const paths = [];
+
+  makes.forEach((make) => {
+    years.forEach((year) => {
+      paths.push({ makeId: String(make.MakeId), year: String(year) });
+    });
+  });
+
+  return paths;
+}
+
+export default async function ResultPage({ params }) {
+  const { makeId, year } = await params;
+
+  // Fetch makeName on the server-side
+  const makeName = await fetchMakeName(makeId);
+
+  return <ResultPageClient makeId={makeId} year={year} makeName={makeName} />;
 }
