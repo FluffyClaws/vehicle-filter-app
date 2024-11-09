@@ -1,3 +1,48 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@next/next/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["react", "react-hooks", "@next/next"],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "react/prop-types": "off", // Turn off prop-types rule if not using PropTypes
+    "react/react-in-jsx-scope": "off", // Next.js handles React import automatically
+    "jsx-quotes": ["error", "prefer-double"],
+    "indent": ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    "arrow-body-style": ["error", "as-needed"],
+    "prefer-const": "error",
+    "no-var": "error",
+    "eqeqeq": "error",
+    "object-shorthand": ["error", "always"],
+    "consistent-return": "warn",
+    "max-len": ["error", { "code": 80, "ignoreComments": true }],
+    "react/jsx-uses-react": "off",
+    "react/jsx-uses-vars": "error"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }

@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Vehicle Filter App
 
-## Getting Started
+A web application that allows users to select a vehicle make and model year, then displays the available vehicle models for the chosen make and year. The app interacts with the National Highway Traffic Safety Administration (NHTSA) API to fetch vehicle information.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Select Vehicle Make and Year**: Users can select a car make and model year to view available vehicle models.
+- **Dynamic Data Fetching**: Vehicle makes and model data are dynamically fetched from the NHTSA API.
+- **Client-Side Rendering with Suspense**: Uses React’s Suspense API to handle loading states and asynchronous data fetching on the client-side.
+- **Responsive UI**: The user interface is fully responsive and optimized for mobile and desktop devices.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Architecture Overview
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The application is built with [Next.js](https://nextjs.org/), a React framework for building server-side rendered and statically generated web applications. It follows the following structure:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Server-Side Rendering (SSR)**: Data is fetched on the server to pre-render the page with vehicle makes and model names before it's sent to the client.
+- **Client-Side Fetching**: Vehicle models are fetched on the client-side using React's `useEffect` to allow for dynamic updates.
+- **Environment Variables**: API URLs are stored securely in a `.env.local` file to separate configuration from code.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Make sure you have the following installed on your machine:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Node.js](https://nodejs.org/) (version 14.x or higher)
+- [npm](https://www.npmjs.com/) (Node package manager, comes with Node.js)
 
-## Deploy on Vercel
+## Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   git clone
+   cd vehicle-filter-app
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the application locally:
+
+   ```bash
+   npm run dev
+   ```
+
+   This will start the development server at [http://localhost:3000](http://localhost:3000).
+
+## Usage
+
+1. Open the app in your browser at [http://localhost:3000](http://localhost:3000).
+2. Select a **Vehicle Make** from the dropdown.
+3. Select a **Model Year** from the list.
+4. Click the **Next** button to see the available vehicle models for the selected make and year.
+
+## Technologies Used
+
+- **Next.js** - React framework for SSR, static site generation, and client-side rendering.
+- **React** - JavaScript library for building the user interface.
+- **Tailwind CSS** - Utility-first CSS framework for styling.
+- **NHTSA Vehicle API** - Provides information about vehicle makes and models.
