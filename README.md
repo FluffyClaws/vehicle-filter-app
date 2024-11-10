@@ -31,7 +31,7 @@ Make sure you have the following installed on your machine:
 1. Clone the repository:
 
    ```bash
-   git clone
+   git clone https://github.com/FluffyClaws/vehicle-filter-app.git
    cd vehicle-filter-app
    ```
 
